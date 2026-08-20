@@ -12,6 +12,7 @@ terra-api/
 terra-api-fe/
 terra-jenkins/
 terra-hq-site/
+oms/
 restaurant-order-management-system/
 
 # IDE
@@ -26,3 +27,7 @@ Thumbs.db
 
 # Local env overrides (if any)
 .env.local
+
+# Game Venture — separate Terra venture, pre-production, not part of terra-api's own repos.
+# Coding not authorized here; folder exists locally for reference/planning only.
+game venture/
