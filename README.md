@@ -40,7 +40,7 @@ terra-initiative-home/
 docker-compose up --build
 
 # Services will be available at:
-# Backend API: http://localhost:8081
+# Backend API: http://localhost:8080 (changed from 8081, 2026-08-08)
 # Frontend: http://localhost:3000
 # Postgres: localhost:5433
 # Redis: localhost:6379
@@ -87,7 +87,7 @@ See [ADRs in Notion](https://notion.so/terra-api-architecture) for detailed deci
 
 **Local:** `docker-compose up` (this folder)  
 **EC2 Staging:** `docker-compose-v2 -p terra-api-staging -f docker-compose.staging.yml up -d` (separate port 9081)  
-**EC2 Prod:** `docker-compose-v2 -p terra-api-prod -f docker-compose.prod.yml up -d` (port 8081)
+**EC2 Prod:** `docker-compose-v2 -p terra-api-prod -f docker-compose.prod.yml up -d` (port 8080, changed from 8081 2026-08-08; also reachable via HTTPS at `api.terra-hq.com`)
 
 Both tiers run on the same EC2 box, kept separate via Compose project names.
 
