@@ -1,11 +1,11 @@
-# Terra API Ecosystem
+# Terra initiative Ecosystem
 
 Multi-service orchestration for the Terra Inc ecosystem. Contains backend API, frontend dashboard, and Jenkins CI/CD infrastructure.
 
 ## Project Structure
 
 ```
-terra-api/
+terra-initiative-home/
 ├── docker-compose.yml          ← Single source of truth for local dev (full stack)
 ├── docker.env                  ← Local dev environment variables (gitignored)
 ├── .gitignore                  ← Prevents docker-compose files in individual repos
