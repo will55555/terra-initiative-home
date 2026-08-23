@@ -84,21 +84,38 @@ anything else on this list.
 | THQ-001 — Visualizer frontend integration ADR + migration plan | terra-hq-site TASKS.md | Marked In Progress since 2026-07-17 — check if this is stale given how much visualizer work (THQ-002/003/017) has shipped since. |
 | THQ-003 — Pipeline extension tubes freeze connected state at creation, never refresh | terra-hq-site TASKS.md | Fix drafted and syntax-checked, **not yet visually confirmed**, uncommitted, local to the `test` machine only. Needs the visual-verification repro steps run before committing. |
 
-## Known Contradictions Needing Will's Judgment
+## Known Contradictions — RESOLVED 2026-08-23
 
-These are cases where two sources disagree and this file couldn't resolve which is current:
+Notion MCP access became available this session; each row below was checked directly against
+Notion (not inferred) and corrected there where TASKS.md was clearly more current.
 
-1. **TAPI-020 (SonarQube gate)** — terra-api/TASKS.md says "Planned"; CLAUDE.md and HUB_STATE
-   reportedly say it closed 2026-08-07. Already flagged once before in
-   `TERRA_INITIATIVE_STATE_2026-08-07.md` and apparently still not corrected.
-2. **JVM heap caps "not yet applied"** (Notion) vs. **confirmed active in prod** (terra-api
-   TAPI-013, verified via `-XX:+PrintFlagsFinal` 2026-08-02). TASKS.md's evidence is more specific
-   and dated — Notion row is likely just stale.
-3. **ADR-012 / operator account provisioning** (Notion still open) vs. **TAPI-017 + TAPI-025 both
-   Done** in terra-api/TASKS.md, with TAPI-025 resolved via a documented SSM path 2026-08-09.
-4. **ROMS EC2 box / Phase D** (Notion still open) vs. **oms/TASKS.md's ROMS-001/002/004/005 all
-   Done/superseded** — ROMS has been live in production since 2026-08-08.
+1. **TAPI-020 (SonarQube gate)** — no standalone Notion row existed to correct; it was only
+   referenced inside Phase A's title and the meta-correction task. Nothing to close.
+2. **JVM heap caps "not yet applied"** — Notion row marked **Done**, referencing TAPI-013's
+   verified `-XX:+PrintFlagsFinal` confirmation (2026-08-02).
+3. **ADR-012 / operator account provisioning** — Notion's "Phase B" row marked **Done**. ADR-012's
+   own page Status field also flipped **Proposed → Accepted**, since its 2026-08-09 update note
+   already documented live production verification.
+4. **ROMS EC2 box / Phase D** — Notion row marked **Done**, per the Ha'bem (OMS) Notion project
+   page's own log confirming ROMS-001/002 closed 2026-08-08. **One real fragment is NOT closed**:
+   disabling SonarCloud Automatic Analysis for the OMS project — that same page's log still lists
+   it as an open manual step.
 
-**Recommendation:** the repo-local TASKS.md files consistently carry more specific, dated,
-verified detail than the Notion rows above — treat TASKS.md as the more current source when the
-two disagree, but confirm with Will rather than silently closing the Notion rows.
+**Also found and fixed in the same pass:**
+- terra-api-fe's Notion project page wrongly said its own repo was `will55555/terra-api-home` —
+  corrected to `will55555/terra-api-fe` (confirmed via `git remote -v`).
+- Two Notion meta-tasks this file's 2026-08-21 pass had itself generated are now closed: "Correct
+  stale Notion Tasks DB rows" (this work) and "Confirm whether a Machine Paths table exists in
+  Notion" (confirmed via search — it does not; Machine Paths is a `claude-skills`-only artifact).
+
+**Left open, not closed — a scope call, not a factual correction:** "Phase A: Terra API branch
+consolidation" — its Notion page is blank and names branches (`frontend-CI`, `public-health`,
+`customer-identity`) that don't exist under those names in `terra-api`'s current branch list. The
+underlying work looks done via differently-named merges, but confirm with Will before closing it.
+
+**Also corrected this session (found while re-verifying, not part of the original 4):**
+`terra-hq-site/TASKS.md`'s THQ-003 row said "uncommitted, local to `test` machine only" — false on
+this machine (the fix IS committed, `43805a9a`). Real finding: the commit only half-applies the
+fix (child tube's live-refresh assignment is real code; the parent tube's matching fix is
+commented out) — TASKS.md now describes this precisely. See `ACTION_PLAN/04-terra-hq-site.md` §0
+for full detail.
