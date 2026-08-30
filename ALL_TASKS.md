@@ -1,18 +1,42 @@
 # All Open Tasks — Cross-Referenced
 
-<!-- Generated 2026-08-21. Cross-references three sources: the canonical Notion Tasks DB
-     (collection://6002b34b-8bff-456a-aa43-4eed8f643dcd, Terra-domain rows), and each repo's
-     own local TASKS.md (oms/, terra-api/, terra-api-fe/, terra-hq-site/) under this folder.
-     Regenerate each session by re-pulling the Notion query + re-reading each TASKS.md — this
-     is a snapshot, not a live view. Personal/Finance/non-Terra Notion rows are intentionally
-     excluded; this file is scoped to the terra-initiative-home folder's own work. -->
+<!-- Regenerated 2026-08-30. Cross-references the canonical Notion Tasks DB (live pull,
+     collection://6002b34b-8bff-456a-aa43-4eed8f643dcd, Terra-domain rows) against each repo's own
+     TASKS.md, read DIRECTLY from this machine's clones — terra-api/, terra-api-fe/, terra-hq-site/,
+     oms/ all live nested inside terra-initiative-home/ (gitignored siblings, confirmed present and
+     git-clean on this machine as of this pass; terra-jenkins/ has no TASKS.md, infra-only repo).
+     Regenerate each session by re-pulling Notion + re-reading each TASKS.md — this is a snapshot,
+     not a live view. Personal/Finance/non-Terra Notion rows are intentionally excluded. -->
 
 ## How to read this
 
-Each repo tracks its own tasks with its own ID prefix (TAPI, TFE, THQ, OMS/ROMS). The Notion
+Each repo tracks its own tasks with its own ID prefix (TAPI, TFE, THQ, ROMS/OMS). The Notion
 canonical Tasks DB is a separate, higher-level list — some Notion rows map 1:1 to a repo task ID,
-most don't (they're coarser "Phase" groupings or cross-cutting decisions). Where a Notion row
-clearly corresponds to specific repo-level task IDs, both are listed together below.
+most don't (they're coarser "Phase" groupings or cross-cutting decisions).
+
+## What changed since the last snapshot (2026-08-23 → 2026-08-30)
+
+1. **terra-hq-site was 2 commits behind `origin/main` on this machine** — the THQ-005–017 merge
+   (`29d269c`, done from a different clone 2026-08-23) had never been pulled down here. Fast-forwarded
+   clean, zero conflicts (1-line TASKS.md diff only).
+2. **TAPI-020 fixed** — `terra-api/TASKS.md`'s own row said "Planned" against Jenkins/HUB_STATE
+   evidence of a 2026-08-07 close. Corrected to Done, committed (`5ff2841`), pushed to both GitHub
+   and Bitbucket remotes.
+3. **THQ-005–017 status labels fixed** — all 13 rows in `terra-hq-site/TASKS.md` still said "Done —
+   pending commit" despite being confirmed merged and pushed. Corrected to plain "Done" (or "Done,
+   confirmed committed/pushed 2026-08-30" where the row had its own trailing commit-status note),
+   committed (`78c4e6e`), pushed.
+4. **OMS-013's blocker confirmed cleared** — the rename was blocked on `terra-hq-site` having ~80
+   uncommitted file deletions; that landed with the THQ-005–017 merge. Noted in `oms/TASKS.md`
+   (`ff7db76`), pushed. The rename itself has NOT been started — only the prerequisite is clear.
+5. **TAPI-025 re-read directly**: its own Status column literally says "Closed 2026-08-09" — fully
+   done (SSM access provisioned, operator account created, live-verified), not merely "steps may
+   have run" as the prior pass's secondhand framing suggested.
+6. **No Notion rows required correction this pass** — the 4 rows corrected 2026-08-23 (JVM heap
+   caps, ADR-012/Phase B, ROMS EC2/Phase D, "commit terra-hq-site's pending items") are all still
+   marked Done in the live pull, consistent. Live drift since is purely additive: several new
+   personal/business-brainstorm tasks were added to the Notion DB between 2026-08-21 and 2026-08-29
+   (see "New Notion tasks since last pass" below) — none contradict repo state.
 
 ---
 
@@ -20,102 +44,82 @@ clearly corresponds to specific repo-level task IDs, both are listed together be
 
 | Task | Source | Notes |
 |---|---|---|
-| Phase A: Terra API branch consolidation + merge (ancestor check, SonarQube, merge order: frontend-CI → public-health → customer-identity) | Notion | No matching repo TASKS.md entry found — likely predates/spans terra-api's TASKS.md granularity. Verify current branch state before resuming. |
-| Phase B: ADR-012 formalization — accept ADR, provision operator account (role=internal + scope=ops:read), build /api/v1/internal endpoints | Notion + terra-api TAPI-017/TAPI-025 | TAPI-017 (endpoints) and TAPI-025 (ops:read scope grant) both show **Done** in terra-api/TASKS.md, TAPI-025 resolved via SSM 2026-08-09. **Contradiction**: Notion still lists this as open High priority — TASKS.md is more current/detailed here, Notion row likely stale. Confirm with Will before treating as still-blocking. |
-| Phase E: Resolve SEC-001 (plaintext creds), relocate Jenkins off laptops to own box + Cloudflare Tunnel, real subdomains, migrate creds/webhooks | Notion + terra-api TAPI-019/TAPI-022 | TAPI-019 (Jenkins → dedicated EC2 box) is **Done** (2026-08-05). TAPI-022 (domains + TLS) is still **Planned** — this is the still-genuinely-open part of Phase E. SEC-001 plaintext-creds item not found by that ID in any TASKS.md — needs its own lookup. |
-| Terra API — deploy JVM heap caps to prod (committed 157f923, not yet applied) | Notion + terra-api TAPI-013 | **Contradiction**: terra-api/TASKS.md's TAPI-013 says heap caps were confirmed **active and verified** in prod as of 2026-08-02 (`MaxRAMPercentage=50` confirmed via `-XX:+PrintFlagsFinal`). Notion row saying "not yet applied" looks stale — TASKS.md's verification detail is more convincing. Recommend re-checking prod directly before spending time on this. |
-| Set up Cloudflare Access on terra-hq.com — site fully public | Notion | No corresponding terra-hq-site TASKS.md entry found. Genuinely appears open. |
-| TAPI-020 — SonarQube gate wired into Jenkins CI/CD | terra-api TASKS.md | Listed **Planned** in TASKS.md, sequenced after TAPI-019 (which is done, so this is unblocked now). CLAUDE.md/HUB_STATE reportedly say this actually closed 2026-08-07 — this exact contradiction was already flagged in `TERRA_INITIATIVE_STATE_2026-08-07.md` (2026-08-07 research doc) as needing Will's correction. Still unresolved as of this file. |
-| TAPI-021 — EC2 right-size terra-api's box back toward t3.micro | terra-api TASKS.md | **Planned**. Remaining real sub-items: staging on-demand (biggest win), Alpine JRE base, trim snapd/SSM. |
-| TAPI-023 — OS-level security patching automation, ecosystem-wide | terra-api TASKS.md | **Planned**, sequenced after TAPI-019 (now unblocked) so it covers Jenkins's box too. |
-| TAPI-024 — Grant prod `customer_service_access` entitlement for roms/pios to Will's real account | terra-api TASKS.md | **Planned**. Needs Will's real prod `customer_id` confirmed before writing the exact SQL. |
+| Phase A: Terra API branch consolidation + merge (ancestor check, SonarQube, merge order: frontend-CI → public-health → customer-identity) | Notion | Still Todo. Notion page is blank; names branches (`frontend-CI`, `public-health`, `customer-identity`) not present under those names in `terra-api`'s current branch list (`phase-2-auth`, `phase-3-resilience`, `phase-4-governance`, `phase-5-redis`, `phase-6-cicd`, `phase-8-customer-identity`, `sonarqube-quality-gate`, `rename/roms-to-oms-mentions`). The underlying work looks done via differently-named merges — this is a scope call for Will, not a fact to verify, so left open. |
+| Phase E: Resolve SEC-001 (plaintext creds), relocate Jenkins off laptops to own box + Cloudflare Tunnel, real subdomains, migrate creds/webhooks | Notion + terra-api TAPI-019 | TAPI-019 (Jenkins → dedicated EC2 box) confirmed **Done** directly in `terra-api/TASKS.md`. TAPI-022 (domains + TLS, the other real piece of Phase E) is still **Planned** — see below. SEC-001 not found under that ID in any TASKS.md read this pass. |
+| Set up Cloudflare Access on terra-hq.com — site fully public | Notion | Still Todo. No corresponding terra-hq-site TASKS.md entry — genuinely open, business/security decision. |
+| TAPI-021 — EC2 right-size terra-api's box back toward t3.micro | terra-api TASKS.md | Confirmed **Planned** directly in the file. Remaining real sub-items per the row's own text: staging on-demand (biggest win), Alpine JRE base, trim snapd/SSM. |
+| TAPI-022 — Domains + TLS for all remaining ecosystem endpoints | terra-api TASKS.md | Confirmed **Planned** directly. Only `api.terra-hq.com` has real HTTPS today. |
+| TAPI-023 — OS-level security patching automation, ecosystem-wide | terra-api TASKS.md | Confirmed **Planned** directly, sequenced after TAPI-019 (done) so it covers Jenkins's box too. |
+| TAPI-024 — Grant prod `customer_service_access` entitlement for roms/oms to Will's real account | terra-api TASKS.md | Confirmed **Planned** directly. Blocked on confirming Will's real prod `customer_id` first. |
 
 ## 🟡 Medium Priority — Open
 
 | Task | Source | Notes |
 |---|---|---|
-| Phase C: Verify terra-api-fe login, wire terra-hq-site login buttons, confirm visualizer reads live public-health endpoint | Notion | Related repo work (TFE-501 done, TFE-502/503 still open — see below) suggests this is partially done already. |
-| Phase D: ROMS own EC2 box — provision, onboard to terra-jenkins, redeploy, SonarQube cleanup branch | Notion + oms TASKS.md | oms/TASKS.md's ROMS-001/002/004/005 all show **Done/superseded** — ROMS is already live in production on its own EC2, redeployed, heartbeat verified. This Notion row reads as stale; the actual remaining piece may just be the "SonarQube cleanup branch" fragment. |
-| Hard-reset terra-api branches on the other laptop after history rewrite | Notion | No matching repo-level task ID. Housekeeping item, do when next on that machine. |
-| Scope a Jenkins capacity/scaling session | Notion | Not yet scoped anywhere else. |
-| Scope a service-load learning session (OMS under high concurrency, etc.) | Notion | Not yet scoped anywhere else. |
-| Terra API — decide staging: leave down, or restore on t3.small | Notion | Related to TAPI-021's "staging on-demand" sub-item — likely the same decision, not a separate task. |
-| Verify Snorkel AI first invoice — check Terra Services LLC Rung 2 trigger | Notion | Business/entity-formation trigger check, not a repo task. |
-| Update Terra Apparel page/site to wearables-only scope | Notion | Business-side, not represented in any repo TASKS.md. |
-| TFE-502 — Redirect unauthenticated users to login instead of leaving them on a broken page | terra-api-fe TASKS.md | Open. |
-| TFE-503 — Expand frontend test coverage | terra-api-fe TASKS.md | Open. |
-| TFE-602 — Replace placeholder branding (/internal nav logo + favicon) | terra-api-fe TASKS.md | Blocked on Will's real designs existing. Same class as oms/TASKS.md's OMS-018 (favicon crop). |
-| TFE-603 — JWT session expiry has no user-facing handling | terra-api-fe TASKS.md | Real UX bug: silent infinite-retry loop on 401 instead of a "session expired" prompt. Not fixed by design (deserves its own focused pass). |
-| OMS-013 — Coordinate cross-repo `serviceId: 'roms'` → `'oms'` rename | oms TASKS.md | **Blocked**: terra-hq-site has ~80 unrelated uncommitted file deletions/an Assets/ reorg that need Will's attention before that repo is safe to touch for this. |
-| OMS-015 — Redis connection root cause genuinely uncertain (health check DOWN→UP with no code change) | oms TASKS.md | Fix is committed but root cause unconfirmed — needs a dedicated investigation session with better tooling. |
-| OMS-018 — Favicon/touch-icon needs tighter cropping | oms TASKS.md | Blocked on Will supplying a new source image. |
+| Phase C: Verify terra-api-fe login, wire terra-hq-site login buttons, confirm visualizer reads live public-health endpoint | Notion | Still Todo. Not independently re-verified this pass (would need live-site browsing, not a repo-file read) — genuinely open. |
+| OMS-013 — Coordinate cross-repo `serviceId: 'roms'` → `'oms'` rename | oms TASKS.md | **Blocker cleared 2026-08-30** (see "What changed" above) — safe to start now, not yet started. Sequencing note in the row itself: `terra-api`'s prod DB update, `TerraHeartbeatScheduler.java`'s `SERVICE_ID`, and `terra-api-fe`'s `domainConfig.js`/`productConfig.js` should land in one tight deploy window. |
+| Hard-reset terra-api branches on the other laptop after history rewrite | Notion | Still Todo. No matching repo-level task ID — housekeeping for a different machine. |
+| Scope a Jenkins capacity/scaling session | Notion | Still Todo. Explicitly wants a learning/design pass before implementation. |
+| Scope a service-load learning session (OMS under high concurrency, etc.) | Notion | Still Todo. Same as above. |
+| Terra API — decide staging: leave down, or restore on t3.small | Notion | Still Todo. Same decision as TAPI-021's "staging on-demand" sub-item. |
+| Verify Snorkel AI first invoice — check Terra Services LLC Rung 2 trigger | Notion | Still Todo. Business/entity-formation check, not a repo task. |
+| Update Terra Apparel page/site to wearables-only scope | Notion | Still Todo. Business-side, no repo TASKS.md entry. |
+| [Brainstorm Required] Apparel page/site architecture + sourcing (Alibaba vs. POD) | Notion | **New since last pass** (created 2026-08-21, not previously captured here). Business decision. |
+| [Brainstorm Required] Terra Chain/Nkap: build trigger + geographic scope (Africa-only vs. also US) | Notion | **New since last pass** (created 2026-08-21). See `ACTION_PLAN/09-terra-nkap-crypto.md` for the fuller open-questions writeup — this Notion row is the narrower "build trigger + geography" slice of that same undecided space. |
+| Terra API logo: animated dot-wave technique (canvas/sine) | Notion | **New since last pass** (created 2026-08-24). Coding idea, not scoped into any repo TASKS.md yet. |
+| [Brainstorm Required] Terra Ventures investment thesis | Notion | **New since last pass** (created 2026-08-29). Business decision. |
+| TFE-502 — Redirect unauthenticated users to login instead of leaving them on a broken page | terra-api-fe TASKS.md | Confirmed **Open** directly in the file. |
+| TFE-503 — Expand frontend test coverage | terra-api-fe TASKS.md | Confirmed **Open** directly. |
+| OMS-015 — Redis connection root cause genuinely uncertain | oms TASKS.md | Confirmed still **uncertain** directly in the file — the row is explicit that the `spring.redis.*`→`spring.data.redis.*` fix is committed but unverified as the actual cause; needs a dedicated investigation session with better tooling. |
+| OMS-018 — Favicon/touch-icon needs tighter cropping | oms TASKS.md | Confirmed **Open**, blocked on Will supplying a new source image. |
+| TFE-602 — Replace placeholder branding (/internal nav logo + favicon) | terra-api-fe TASKS.md | Confirmed **Open**, blocked on Will's real designs. Same class as oms's OMS-018. |
+| TFE-603 — JWT session expiry has no user-facing handling | terra-api-fe TASKS.md | Confirmed **Open** — real UX bug (silent infinite-retry on 401 instead of a "session expired" prompt), deserves its own focused pass. |
 
 ## 🟢 Low Priority / Parked
 
 | Task | Source | Notes |
 |---|---|---|
 | Phase F: visual/UX refinement pass across terra-hq-site, terra-api-fe, ROMS UI | Notion | Explicitly parked until Phases A–E are live. |
-| Phase G: scale/load planning (concurrent users, DB pooling, Kafka throughput, EC2 sizing) | Notion | Explicitly parked until ecosystem is fully live. |
+| Phase G: scale/load planning | Notion | Explicitly parked until ecosystem is fully live. |
 | Decide: Terra Agriculture sourcing for OMS — Cameroon-only or cross-property principle | Notion | Business decision, no code dependency. |
 | Stand up separate goods-line area (bamboo/calabash hard goods) | Notion | Business decision. |
 | Decide entity home for goods line | Notion | Business decision. |
 | Define SKU/marker scheme for guest-purchasable vs. resort-owned goods items | Notion | Depends on the goods-line decisions above. |
 | Build automated invisible-comment watermarking script | Notion | No repo home identified yet. |
-| TAPI-026 — Manual quarantine/release from the Operator tab (click a cube) | terra-api TASKS.md | Backlog — deliberately unscoped further until Will designs it properly. |
-| TFE-601 — "My Services" / "Ecosystem" tab split | terra-api-fe TASKS.md | Design brainstormed, deliberately shelved for a dedicated session. |
-| TFE-604 — Menu popover feature ideas (account info, quick links, live status dot) | terra-api-fe TASKS.md | Captured for a future refinement pass, not scoped. |
-| TFE-605 — Cube slow-pulse animation | terra-api-fe TASKS.md | Deferred — real animation-curve work, not a quick add. |
-| THQ-002 — Visualizer cube color: graduated health tier vs. binary connected | terra-hq-site TASKS.md | **Planned**, likely superseded — THQ-017 already ported FE's tier-color fixes into this file 2026-08-09. Worth confirming whether THQ-002 is actually still needed or can be closed. |
-| THQ-004 — Design pass follow-ups (per-subsidiary card images, puzzle-piece shape, 3D backdrop asset) | terra-hq-site TASKS.md | Notes only, no code yet. |
-| THQ-018 — Custom circular cursor (Montfort-style), site-wide | terra-hq-site TASKS.md | Design discussion only — see [[reference_montfort-design]] memory. |
-
-## ⚠️ Uncommitted / Pending-Commit Work (not "open tasks" but real risk)
-
-A large amount of terra-hq-site work is marked **Done — pending commit** in its own TASKS.md
-(THQ-005 through THQ-017, minus THQ-002/004/018). None of this has landed in git yet. This is
-the single biggest "silent risk" in the whole list — a machine issue, branch mixup, or accidental
-`git checkout .` could lose real, already-approved work. Recommend committing this batch before
-anything else on this list.
+| [Research Required] Amazon seller plan for bamboo/calabash goods line | Notion | **New since last pass** (created 2026-08-23). |
+| Define numeric criteria for "decent unit in good area" — Dual-Use Global Property concept | Notion | **New since last pass** (created 2026-08-29). Unrelated personal/business real-estate concept, not a Terra repo task. |
+| TAPI-026 — Manual quarantine/release from the Operator tab | terra-api TASKS.md | Confirmed **Backlog** directly — deliberately unscoped until Will designs it properly. |
+| TFE-601/604/605 | terra-api-fe TASKS.md | Confirmed **Open/Backlog** directly — tab split, menu popover ideas, cube pulse animation. All deliberately shelved for future design sessions. |
+| THQ-002 — Visualizer cube color: graduated health tier vs. binary connected | terra-hq-site TASKS.md | Confirmed still **Planned** directly in the file, though HUB_STATE separately claims this already shipped 2026-08-03. Worth a live-site check (load `terra-hq.com`, confirm graduated tier colors) to close this out — not verified this pass since it needs a browser, not a file read. |
+| THQ-004 — Design pass follow-ups (per-subsidiary card images, puzzle-piece shape, 3D backdrop asset) | terra-hq-site TASKS.md | Confirmed **Planned**, notes only, no code yet. |
+| THQ-018 — Custom circular cursor (Montfort-style), site-wide | terra-hq-site TASKS.md | Confirmed **Planned**, design discussion only. See [[reference_montfort-design]] memory. |
 
 ## In Progress
 
 | Task | Source | Notes |
 |---|---|---|
-| THQ-001 — Visualizer frontend integration ADR + migration plan | terra-hq-site TASKS.md | Marked In Progress since 2026-07-17 — check if this is stale given how much visualizer work (THQ-002/003/017) has shipped since. |
-| THQ-003 — Pipeline extension tubes freeze connected state at creation, never refresh | terra-hq-site TASKS.md | Fix drafted and syntax-checked, **not yet visually confirmed**, uncommitted, local to the `test` machine only. Needs the visual-verification repro steps run before committing. |
+| THQ-001 — Visualizer frontend integration ADR + migration plan | terra-hq-site TASKS.md | Confirmed still **In Progress** directly in the file, open since 2026-07-17. Worth checking whether terra-api-fe's TFE-401 (feature-complete Three.js port) already IS this migration — a Notion/ADR-009 cross-check, not done this pass. |
+| THQ-003 — Pipeline extension tubes freeze connected state at creation, never refresh | terra-hq-site TASKS.md | Confirmed directly: **"In Progress — committed but INCOMPLETE."** The fix (`43805a9a`) is committed but only half-applied — the child tube's live-refresh assignment is real code; the parent tube's matching two lines are still commented out in `terra_api_visualizer_phase5.js` (~lines 666–667). This is a real, still-open bug, not a commit-risk item. Fix is a 2-line uncomment + a visual repro pass (see the file's own row for exact repro steps). |
 
-## Known Contradictions — RESOLVED 2026-08-23
+## Recently Confirmed Done (this pass, direct repo reads)
 
-Notion MCP access became available this session; each row below was checked directly against
-Notion (not inferred) and corrected there where TASKS.md was clearly more current.
+| Task | Source | Notes |
+|---|---|---|
+| TAPI-020 — SonarQube gate wired into Jenkins CI/CD | terra-api TASKS.md | Row corrected this pass (was stale "Planned") — confirmed Done via HUB_STATE's Jenkins evidence, fixed in the repo doc itself. |
+| TAPI-025 — Grant `ops:read` scope to Will's prod account | terra-api TASKS.md | Row's own Status column: "Closed 2026-08-09." Fully resolved via direct SSM access; the one-shot bootstrap controller was the fallback path, not what actually shipped. |
+| THQ-005 through THQ-017 (gold rollout, circuit backdrop, resort rebuild, nav menu, visualizer transparency/theme-sync, THQ-017's FE-parity port, etc.) | terra-hq-site TASKS.md | All 13 rows corrected this pass (was stale "Done — pending commit") — confirmed pushed and merged (`29d269c`), zero divergence from origin as of this machine's fast-forward pull. |
+| terra-hq-site git sync | This machine | Was 2 commits behind `origin/main`; fast-forwarded clean. |
 
-1. **TAPI-020 (SonarQube gate)** — no standalone Notion row existed to correct; it was only
-   referenced inside Phase A's title and the meta-correction task. Nothing to close.
-2. **JVM heap caps "not yet applied"** — Notion row marked **Done**, referencing TAPI-013's
-   verified `-XX:+PrintFlagsFinal` confirmation (2026-08-02).
-3. **ADR-012 / operator account provisioning** — Notion's "Phase B" row marked **Done**. ADR-012's
-   own page Status field also flipped **Proposed → Accepted**, since its 2026-08-09 update note
-   already documented live production verification.
-4. **ROMS EC2 box / Phase D** — Notion row marked **Done**, per the Ha'bem (OMS) Notion project
-   page's own log confirming ROMS-001/002 closed 2026-08-08. **One real fragment is NOT closed**:
-   disabling SonarCloud Automatic Analysis for the OMS project — that same page's log still lists
-   it as an open manual step.
+## Known Contradictions — status as of 2026-08-30
 
-**Also found and fixed in the same pass:**
-- terra-api-fe's Notion project page wrongly said its own repo was `will55555/terra-api-home` —
-  corrected to `will55555/terra-api-fe` (confirmed via `git remote -v`).
-- Two Notion meta-tasks this file's 2026-08-21 pass had itself generated are now closed: "Correct
-  stale Notion Tasks DB rows" (this work) and "Confirm whether a Machine Paths table exists in
-  Notion" (confirmed via search — it does not; Machine Paths is a `claude-skills`-only artifact).
+All 4 contradictions resolved 2026-08-23 (JVM heap caps, ADR-012/Phase B, ROMS EC2/Phase D, commit
+terra-hq-site's pending items) remain correctly resolved — re-verified against the live Notion pull
+this pass, no regression. The two same-repo doc contradictions found in that pass (TAPI-020,
+THQ-005–017) are now also fixed, directly in the repos, per "What changed" above.
 
-**Left open, not closed — a scope call, not a factual correction:** "Phase A: Terra API branch
-consolidation" — its Notion page is blank and names branches (`frontend-CI`, `public-health`,
-`customer-identity`) that don't exist under those names in `terra-api`'s current branch list. The
-underlying work looks done via differently-named merges, but confirm with Will before closing it.
+**Still left open, not closed — a scope call, not a factual correction:** "Phase A: Terra API
+branch consolidation" (see High Priority table above).
 
-**Also corrected this session (found while re-verifying, not part of the original 4):**
-`terra-hq-site/TASKS.md`'s THQ-003 row said "uncommitted, local to `test` machine only" — false on
-this machine (the fix IS committed, `43805a9a`). Real finding: the commit only half-applies the
-fix (child tube's live-refresh assignment is real code; the parent tube's matching fix is
-commented out) — TASKS.md now describes this precisely. See `ACTION_PLAN/04-terra-hq-site.md` §0
-for full detail.
+**Not independently re-verified this pass (would need a live browser, not a file read):**
+- Phase C (login/visualizer live-endpoint verification)
+- THQ-001 and THQ-002's "likely already shipped" claims
