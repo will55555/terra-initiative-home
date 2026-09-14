@@ -1,4 +1,14 @@
-# Terra Initiative — Action Plan (generated 2026-08-22, last refreshed 2026-08-23)
+# Terra Initiative — Action Plan (generated 2026-08-22, last refreshed 2026-08-30)
+
+**2026-08-30 refresh note:** re-pulled the live Notion Tasks DB and read `terra-api`,
+`terra-api-fe`, `terra-hq-site`, and `oms` TASKS.md files directly on this machine (all four are
+present here, correcting this file's 2026-08-23 claim that `oms` wasn't cloned locally). Found and
+fixed: `terra-hq-site` was 2 commits behind `origin/main` (fast-forwarded); `terra-api/TASKS.md`'s
+TAPI-020 row and `terra-hq-site/TASKS.md`'s THQ-005–017 rows both had stale status text despite
+being done/pushed (both corrected directly in-repo); OMS-013's blocker is now cleared. No Notion
+rows needed correction — live drift since 2026-08-23 was purely additive (new business-brainstorm
+tasks). Full detail in `ALL_TASKS.md`'s "What changed" section — treat this file's per-item detail
+below as accurate as of 2026-08-23 except where superseded by that section.
 
 **Read-only research artifact.** No code was touched to produce this (a few docs/Notion corrections
 were applied with explicit approval each time — see the "Status as of 2026-08-23" section below for
