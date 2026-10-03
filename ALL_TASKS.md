@@ -14,6 +14,76 @@ Each repo tracks its own tasks with its own ID prefix (TAPI, TFE, THQ, ROMS/OMS)
 canonical Tasks DB is a separate, higher-level list — some Notion rows map 1:1 to a repo task ID,
 most don't (they're coarser "Phase" groupings or cross-cutting decisions).
 
+## Direct verification pass (2026-10-04) — checked every open task against current code/content
+
+Per Will's request to confirm these are "actual current tasks and not things already addressed."
+Re-fetched all 5 repos (clean, zero divergence from origin, no change since 2026-10-03). Checked
+the most re-verifiable claims directly against code/content rather than trusting prior doc text.
+
+**Clarified first:** Will asked about "the migration" being complete. Two different migrations
+share the ROMS→OMS name: (1) OMS-006–012, the codebase/package/Docker-image/repo rename — **genuinely
+done**, confirmed via `git log`/`git show` on commit `fd4c732` ("rename ROMS to OMS across backend
+package, frontend, and build config," 2026-08-10) — matches `oms/TASKS.md`'s own Closed status,
+already correctly reflected everywhere in this file. (2) OMS-013, the `service_id` wire-protocol
+*value* sent in heartbeats + stored in prod's `customer_service_access` table — **confirmed still
+open**: `TerraHeartbeatScheduler.java:32` still has `SERVICE_ID = "roms"` (not touched by the
+`fd4c732` rename — that commit moved the file into the new package but didn't change this string
+literal), `terra-api-fe`'s `domainConfig.js`/`productConfig.js`/`terraScene.js`/
+`useEcosystemHealth.js` all still use `'roms'` throughout, and `terra-api`'s `seed-dev.sql` +
+several test files still reference `service_id: "roms"`. No evidence anywhere the prod DB `UPDATE`
+was run either. OMS-013 stays listed as open below — this was already correct, no file change
+needed for this item specifically.
+
+**Real finding — THQ-002 and THQ-003 are stale, describe a dead file:**
+`terra_api_visualizer_phase5.js`/`.html` (the file both tasks are about) is **archived**, not at
+the repo root — confirmed via direct file search: both files live at
+`Assets/archive/terra_api_visualizer_phase5.{js,html}`. No live page references them: grepped
+`index.html`/`terra_initiative.html`/`terra_tech.html`, zero hits. This matches
+`terra-hq-site/CLAUDE.md`'s own documented 2026-08-09 decision ("terra_api_strategy.html archived
+... this static HTML copy is a frozen reference only, no longer linked from anywhere on the live
+site") — the visualizer moved into `archive/` alongside it the same day. All live "Terra API" links
+on the site (`index.html` lines 488/592/1032, `terra_tech.html` line 229) point directly to
+`https://api.terra-hq.com/` — the real, live, production visualizer, which is terra-api-fe's React
+port. **Directly confirmed terra-api-fe's copy does NOT have THQ-003's bug**: `terraScene.js` lines
+440-441 show `tube.userData.cube1 = cube` / `tube.userData.cube2 = cube` as live, uncommented code
+— the fix is fully applied there, unlike the archived hq-site copy's half-applied version. THQ-002
+(graduated health-tier coloring) is almost certainly also moot for the same reason — the live
+visualizer customers/investors actually see is the terra-api-fe one, not the archived file. **Both
+THQ-002 and THQ-003 moved to a new "Likely Stale / Needs Closing" section below** rather than
+closed outright — closing a repo's own TASKS.md row isn't a call to make unilaterally, but leaving
+them in the main Low Priority / In Progress tables as if still meaningfully open misrepresents
+their status.
+
+**Real finding — "Set up Cloudflare Access on terra-hq.com" (High Priority) is likely obsolete,
+not just open:** the live site's own content states this is a **settled architecture decision**
+against the approach the Notion task asks for. `index.html` line 751: "Route gating via Terra API
+JWT (not Cloudflare Access)." `terra_tech.html` line 194: "protect terra-hq.com's /internal pages
+via Terra API's own JWT — explicitly not Cloudflare Access, per the locked architecture decision."
+**Contradicted by a different file in the same repo**: `terra-hq-site/CLAUDE.md` (last touched
+2026-09-14, newer than index.html's 2026-08-20) still says "Cloudflare Access NOT enabled... setup
+pending" — CLAUDE.md itself reads stale against the live site content, not the other way around.
+This task stays in High Priority below but reworded to flag the contradiction — it's not a simple
+"still Todo," it may be a Notion row describing an approach that's already been architecturally
+rejected in favor of JWT gating. Needs Will's call, not a doc fix, since CLAUDE.md and index.html
+actively disagree.
+
+**Everything else directly spot-checked — confirmed accurate, no changes needed:**
+TAPI-021/022/023/024 (`Planned`), TAPI-025 (`Closed 2026-08-09`), TAPI-026 (`Backlog`) — all
+re-read directly from `terra-api/TASKS.md`, unchanged since 2026-10-03. TFE-502/503/601-605 —
+re-read directly from `terra-api-fe/TASKS.md`, all still open/unchecked, unchanged. THQ-005–017
+(`Done`), THQ-001/004/018 (`In Progress`/`Planned`) — re-read directly from
+`terra-hq-site/TASKS.md`, unchanged. SEC-001 — confirmed it's real, live content on
+`terra_tech.html` ("migration to Bitwarden in progress," not yet confirmed closed) rather than a
+phantom Notion-only reference, matching what this file already said.
+
+## Likely Stale / Needs Closing — flagged this pass, not closed unilaterally
+
+| Task | Why it looks stale | What would confirm it |
+|---|---|---|
+| THQ-002 — Visualizer cube color: graduated health tier | The file it describes (`terra_api_visualizer_phase5.js`) is archived and unreferenced by any live page. The live visualizer (terra-api-fe) already does graduated health-tier coloring per TFE-403. | Load `api.terra-hq.com`, confirm graduated tier colors render (should — TFE-403 claims this shipped). If confirmed, close THQ-002 in `terra-hq-site/TASKS.md` as superseded-by-architecture-move, not fixed-in-place. |
+| THQ-003 — Pipeline extension tubes freeze connected state | Same root issue — describes a bug in the archived file. The live equivalent (terra-api-fe's `terraScene.js`) has the fix fully applied (both `cube1`/`cube2` assignments are live code, confirmed by direct read). | No live-site verification needed for the bug itself (confirmed via code read) — just confirm Will's OK to mark the hq-site row closed/superseded rather than "fix" dead code. |
+| Set up Cloudflare Access on terra-hq.com | Directly contradicted by the live site's own content, which states JWT-based gating is the "locked architecture decision," not Cloudflare Access. | Will's call: is index.html's "locked decision" framing still accurate, or did CLAUDE.md's "pending" framing win since? Whichever is current, the other file needs a correction — they can't both be right. |
+
 ## Full Terra Inc Notion space audit (2026-10-03) — first pass beyond the Tasks DB
 
 **Scope:** per Will's request ("scour through the entire terra inc space, even subfiles/subfolders")
