@@ -76,13 +76,16 @@ re-read directly from `terra-api-fe/TASKS.md`, all still open/unchecked, unchang
 `terra_tech.html` ("migration to Bitwarden in progress," not yet confirmed closed) rather than a
 phantom Notion-only reference, matching what this file already said.
 
-## Likely Stale / Needs Closing — flagged this pass, not closed unilaterally
+## Resolved This Pass (2026-10-04) — confirmed by Will, closed
 
-| Task | Why it looks stale | What would confirm it |
-|---|---|---|
-| THQ-002 — Visualizer cube color: graduated health tier | The file it describes (`terra_api_visualizer_phase5.js`) is archived and unreferenced by any live page. The live visualizer (terra-api-fe) already does graduated health-tier coloring per TFE-403. | Load `api.terra-hq.com`, confirm graduated tier colors render (should — TFE-403 claims this shipped). If confirmed, close THQ-002 in `terra-hq-site/TASKS.md` as superseded-by-architecture-move, not fixed-in-place. |
-| THQ-003 — Pipeline extension tubes freeze connected state | Same root issue — describes a bug in the archived file. The live equivalent (terra-api-fe's `terraScene.js`) has the fix fully applied (both `cube1`/`cube2` assignments are live code, confirmed by direct read). | No live-site verification needed for the bug itself (confirmed via code read) — just confirm Will's OK to mark the hq-site row closed/superseded rather than "fix" dead code. |
-| Set up Cloudflare Access on terra-hq.com | Directly contradicted by the live site's own content, which states JWT-based gating is the "locked architecture decision," not Cloudflare Access. | Will's call: is index.html's "locked decision" framing still accurate, or did CLAUDE.md's "pending" framing win since? Whichever is current, the other file needs a correction — they can't both be right. |
+All three items flagged in the "direct verification pass" above were confirmed and closed same day:
+
+| Task | Resolution |
+|---|---|
+| THQ-001 — Visualizer frontend integration ADR + migration plan | **Confirmed by Will**: the migration happened — visualizer lives in `terra-api-fe` now, hq-site's copy is "only kept as a relic." Closed in `terra-hq-site/TASKS.md` (`82617ef`). |
+| THQ-002 — Visualizer cube color: graduated health tier | Closed as moot — archived file, live coloring already shipped in terra-api-fe (TFE-403). Closed in `terra-hq-site/TASKS.md` (`82617ef`). |
+| THQ-003 — Pipeline extension tubes freeze connected state | Closed as moot — archived file, live fix already applied in terra-api-fe's `terraScene.js`. Closed in `terra-hq-site/TASKS.md` (`82617ef`). |
+| Set up Cloudflare Access on terra-hq.com | **Confirmed by Will**: "stale since terra-api-fe live — Cloudflare Access became kind of stale because secure pages need password for entry now" (JWT-based gating via Terra API, already live). Closed in Notion Tasks DB directly, with a note that `terra-hq-site/CLAUDE.md`'s "pending" framing was the actually-stale side. `CLAUDE.md` also fixed same pass (`bea97ac`) — replaced its stale Current State/Next Action/Open Blockers sections (dated 2026-07-18) with current status + a pointer to TASKS.md instead of restating task content that drifts. |
 
 ## Full Terra Inc Notion space audit (2026-10-03) — first pass beyond the Tasks DB
 
@@ -224,7 +227,6 @@ flipped status since.
 |---|---|---|
 | Phase A: Terra API branch consolidation + merge (ancestor check, SonarQube, merge order: frontend-CI → public-health → customer-identity) | Notion | Still Todo. Notion page is blank; names branches (`frontend-CI`, `public-health`, `customer-identity`) not present under those names in `terra-api`'s current branch list (`phase-2-auth`, `phase-3-resilience`, `phase-4-governance`, `phase-5-redis`, `phase-6-cicd`, `phase-8-customer-identity`, `sonarqube-quality-gate`, `rename/roms-to-oms-mentions`). The underlying work looks done via differently-named merges — this is a scope call for Will, not a fact to verify, so left open. |
 | Phase E: Resolve SEC-001 (plaintext creds), relocate Jenkins off laptops to own box + Cloudflare Tunnel, real subdomains, migrate creds/webhooks | Notion + terra-api TAPI-019 | TAPI-019 (Jenkins → dedicated EC2 box) confirmed **Done** directly in `terra-api/TASKS.md`. TAPI-022 (domains + TLS, the other real piece of Phase E) is still **Planned** — see below. SEC-001 not found under that ID in any TASKS.md read this pass. |
-| Set up Cloudflare Access on terra-hq.com — site fully public | Notion | Still Todo. No corresponding terra-hq-site TASKS.md entry — genuinely open, business/security decision. |
 | TAPI-021 — EC2 right-size terra-api's box back toward t3.micro | terra-api TASKS.md | Confirmed **Planned** directly in the file. Remaining real sub-items per the row's own text: staging on-demand (biggest win), Alpine JRE base, trim snapd/SSM. |
 | TAPI-022 — Domains + TLS for all remaining ecosystem endpoints | terra-api TASKS.md | Confirmed **Planned** directly. Only `api.terra-hq.com` has real HTTPS today. |
 | TAPI-023 — OS-level security patching automation, ecosystem-wide | terra-api TASKS.md | Confirmed **Planned** directly, sequenced after TAPI-019 (done) so it covers Jenkins's box too. |
@@ -268,16 +270,13 @@ flipped status since.
 | Define numeric criteria for "decent unit in good area" — Dual-Use Global Property concept | Notion | **New since last pass** (created 2026-08-29). Unrelated personal/business real-estate concept, not a Terra repo task. |
 | TAPI-026 — Manual quarantine/release from the Operator tab | terra-api TASKS.md | Confirmed **Backlog** directly — deliberately unscoped until Will designs it properly. |
 | TFE-601/604/605 | terra-api-fe TASKS.md | Confirmed **Open/Backlog** directly — tab split, menu popover ideas, cube pulse animation. All deliberately shelved for future design sessions. |
-| THQ-002 — Visualizer cube color: graduated health tier vs. binary connected | terra-hq-site TASKS.md | Confirmed still **Planned** directly in the file, though HUB_STATE separately claims this already shipped 2026-08-03. Worth a live-site check (load `terra-hq.com`, confirm graduated tier colors) to close this out — not verified this pass since it needs a browser, not a file read. |
 | THQ-004 — Design pass follow-ups (per-subsidiary card images, puzzle-piece shape, 3D backdrop asset) | terra-hq-site TASKS.md | Confirmed **Planned**, notes only, no code yet. |
 | THQ-018 — Custom circular cursor (Montfort-style), site-wide | terra-hq-site TASKS.md | Confirmed **Planned**, design discussion only. See [[reference_montfort-design]] memory. |
 
 ## In Progress
 
-| Task | Source | Notes |
-|---|---|---|
-| THQ-001 — Visualizer frontend integration ADR + migration plan | terra-hq-site TASKS.md | Confirmed still **In Progress** directly in the file, open since 2026-07-17. Worth checking whether terra-api-fe's TFE-401 (feature-complete Three.js port) already IS this migration — a Notion/ADR-009 cross-check, not done this pass. |
-| THQ-003 — Pipeline extension tubes freeze connected state at creation, never refresh | terra-hq-site TASKS.md | Confirmed directly: **"In Progress — committed but INCOMPLETE."** The fix (`43805a9a`) is committed but only half-applied — the child tube's live-refresh assignment is real code; the parent tube's matching two lines are still commented out in `terra_api_visualizer_phase5.js` (~lines 666–667). This is a real, still-open bug, not a commit-risk item. Fix is a 2-line uncomment + a visual repro pass (see the file's own row for exact repro steps). |
+Empty as of 2026-10-04 — THQ-001 and THQ-003 (the only rows previously here) both closed this
+pass. See "Resolved This Pass" above.
 
 ## Recently Confirmed Done (this pass, direct repo reads)
 
