@@ -86,6 +86,8 @@ All three items flagged in the "direct verification pass" above were confirmed a
 | THQ-002 — Visualizer cube color: graduated health tier | Closed as moot — archived file, live coloring already shipped in terra-api-fe (TFE-403). Closed in `terra-hq-site/TASKS.md` (`82617ef`). |
 | THQ-003 — Pipeline extension tubes freeze connected state | Closed as moot — archived file, live fix already applied in terra-api-fe's `terraScene.js`. Closed in `terra-hq-site/TASKS.md` (`82617ef`). |
 | Set up Cloudflare Access on terra-hq.com | **Confirmed by Will**: "stale since terra-api-fe live — Cloudflare Access became kind of stale because secure pages need password for entry now" (JWT-based gating via Terra API, already live). Closed in Notion Tasks DB directly, with a note that `terra-hq-site/CLAUDE.md`'s "pending" framing was the actually-stale side. `CLAUDE.md` also fixed same pass (`bea97ac`) — replaced its stale Current State/Next Action/Open Blockers sections (dated 2026-07-18) with current status + a pointer to TASKS.md instead of restating task content that drifts. |
+| ~~Decide entity home for goods line~~ | **Closed 2026-10-04 in Notion Tasks DB** (row previously left open while this file only flagged the staleness). Resolution note added pointing to the actual decision page — bamboo/calabash is cross-vertical, routed per-product. |
+| Registered Agent Renewal note (Compliance Calendar) | **Fixed 2026-10-04** — the "x5 Wyoming entities" cost-basis note was stale inside the database row itself (`Notes` field), not just prose on the parent page as first assumed. Corrected to the Model B figure (~$125/year, Terra Inc only). |
 
 ## Full Terra Inc Notion space audit (2026-10-03) — first pass beyond the Tasks DB
 
@@ -106,12 +108,12 @@ state" — a holding pen for exactly this kind of reconciliation, logged 2026-08
 Most of these were *already* in this file's Low Priority section below (added 2026-08-19 from an
 earlier Notion pull) — but one of them is now stale, corrected below.
 
-**Stale item corrected:** "Decide entity home for goods line" (Low Priority section below, Notion
-Tasks DB row still shows **Todo**) was actually **resolved 2026-08-29** — see
+**Stale item, since closed:** "Decide entity home for goods line" — Notion Tasks DB row showed
+**Todo** despite being actually **resolved 2026-08-29** — see
 [Entity Home Decision — RESOLVED](https://app.notion.com/p/3cc89370d497814dbde1e606a7b56b0a):
 bamboo/calabash is a cross-vertical material line (not a single entity home) — individual products
-route to whichever subsidiary fits (shoe → Apparel, resort hard goods → OMS/ROMS inventory). The
-canonical Tasks DB row was not updated to reflect this. Follow-on opens from that resolution, not
+route to whichever subsidiary fits (shoe → Apparel, resort hard goods → OMS/ROMS inventory). **Row
+marked Done 2026-10-04**, see "Resolved This Pass" above. Follow-on opens from that resolution, not
 previously captured anywhere: whether this changes the SKU/marker scheme approach (per-destination
 tagging now, not one unified line — see the live draft scheme below), and legal/entity implications
 of a cross-vertical product line, not yet addressed.
@@ -263,8 +265,7 @@ flipped status since.
 | Phase G: scale/load planning | Notion | Explicitly parked until ecosystem is fully live. |
 | Decide: Terra Agriculture sourcing for OMS — Cameroon-only or cross-property principle | Notion | Business decision, no code dependency. |
 | Stand up separate goods-line area (bamboo/calabash hard goods) | Notion | Business decision. |
-| ~~Decide entity home for goods line~~ — **RESOLVED 2026-08-29, Notion Tasks DB row not updated** | Notion | See "Full Terra Inc Notion space audit" section above — bamboo/calabash is cross-vertical, routed per-product, not a single entity home. Notion row should be closed; flagging here rather than closing it unilaterally. |
-| Define SKU/marker scheme for guest-purchasable vs. resort-owned goods items | Notion | **Has a live draft now** — see audit section above (4-segment composite tag drafted 2026-08-29). No longer blocked on the entity-home decision above (that's resolved); still open on exact segment order/format and ROMS/OMS technical integration. |
+| Define SKU/marker scheme for guest-purchasable vs. resort-owned goods items | Notion | **Has a live draft now** — see "Resolved This Pass" above (4-segment composite tag drafted 2026-08-29). No longer blocked on the entity-home decision (closed 2026-10-04, see above); still open on exact segment order/format and ROMS/OMS technical integration. |
 | Build automated invisible-comment watermarking script | Notion | No repo home identified yet. |
 | [Research Required] Amazon seller plan for bamboo/calabash goods line | Notion | **New since last pass** (created 2026-08-23). |
 | Define numeric criteria for "decent unit in good area" — Dual-Use Global Property concept | Notion | **New since last pass** (created 2026-08-29). Unrelated personal/business real-estate concept, not a Terra repo task. |
