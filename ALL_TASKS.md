@@ -14,6 +14,78 @@ Each repo tracks its own tasks with its own ID prefix (TAPI, TFE, THQ, ROMS/OMS)
 canonical Tasks DB is a separate, higher-level list — some Notion rows map 1:1 to a repo task ID,
 most don't (they're coarser "Phase" groupings or cross-cutting decisions).
 
+## Full Terra Inc Notion space audit (2026-10-03) — first pass beyond the Tasks DB
+
+**Scope:** per Will's request ("scour through the entire terra inc space, even subfiles/subfolders")
+— not just the canonical Tasks DB, but every page reachable from the 🌍 Terra Inc hub (restructured
+2026-09-14 into 6 sub-pages: Tech, Finance, Entities, Ops, Subsidiaries, Brand & Strategy), crawled
+via 3 parallel research agents to leaf depth. **Explicitly excluded**: the personal Finance Hub
+(credit repair, investment strategy, personal banking) one hop beyond Terra Inc's thin Finance
+pointer page — real and substantial, but not Terra Inc scope; not reconciled here. Also excluded:
+items already covered by a repo's own TASKS.md (terra-api, terra-api-fe, terra-hq-site, oms) per
+the existing sections below — this audit is additive, not a re-verification of those.
+
+**Top finding — a real, named gap, not just scattered drift:** Notion has a page literally called
+["Task Queue (Manual Transfer)"](https://app.notion.com/p/3c189370d497810ab1beef13672466a9) under
+Ops, explicitly built as a staging area for items "destined for HUB_STATE.md / other git-tracked
+state" — a holding pen for exactly this kind of reconciliation, logged 2026-08-19, Status: Queued.
+5 items have been sitting there over 6 weeks, confirmed found independently by 2 of 3 audit agents.
+Most of these were *already* in this file's Low Priority section below (added 2026-08-19 from an
+earlier Notion pull) — but one of them is now stale, corrected below.
+
+**Stale item corrected:** "Decide entity home for goods line" (Low Priority section below, Notion
+Tasks DB row still shows **Todo**) was actually **resolved 2026-08-29** — see
+[Entity Home Decision — RESOLVED](https://app.notion.com/p/3cc89370d497814dbde1e606a7b56b0a):
+bamboo/calabash is a cross-vertical material line (not a single entity home) — individual products
+route to whichever subsidiary fits (shoe → Apparel, resort hard goods → OMS/ROMS inventory). The
+canonical Tasks DB row was not updated to reflect this. Follow-on opens from that resolution, not
+previously captured anywhere: whether this changes the SKU/marker scheme approach (per-destination
+tagging now, not one unified line — see the live draft scheme below), and legal/entity implications
+of a cross-vertical product line, not yet addressed.
+
+**New Terra-scoped findings from the full crawl, grouped by confidence:**
+
+### Explicitly queued, not yet migrated (highest confidence — Notion's own page says so)
+| Item | Source | Notes |
+|---|---|---|
+| Build automated invisible-comment watermarking script | [Task Queue](https://app.notion.com/p/3c189370d497810ab1beef13672466a9) | Target: `claude-skills/skills/ai-control/HUB_STATE.md`. Scope decision still open: apply to all files in a repo vs. core/business-logic classes only. |
+| SKU/marker scheme — now has a live draft structure | [SKU Scheme Draft](https://app.notion.com/p/3cc89370d4978141a580cd81c8436f0c) | Already in this file below as "Define SKU/marker scheme" but with zero context — actual substance exists: a 4-segment composite tag (destination / design-line / season-drop / open) is drafted, directly downstream of the entity-home resolution above. Still open: exact segment order/delimiter, full segment list, ROMS/OMS technical integration. |
+
+### Recurring checklists, currently unfilled (actionable now, no blocker)
+| Item | Source | Notes |
+|---|---|---|
+| Weekly Review checklists (Entities, Ops, Tech sub-pages) | Entities / Ops / Tech pages | Monday-cadence checklists — compliance calendar check, documents-needing-action check, Rung 2 (1099) status check, active-project blockers check. Currently unchecked across all three (found independently by 2 agents). "Next Week Focus" on Ops page is blank (3 empty priority slots). |
+
+### Entity formation — Rung 2 trigger status needs a direct check
+| Item | Source | Notes |
+|---|---|---|
+| Terra Services LLC formation — may now be actionable | [Entity Strategy](https://app.notion.com/p/38d89370d497814192b7c1deb155e8e8) + [Formation Checklist](https://app.notion.com/p/36e89370d4978114a9cbfaf161282279) | Snorkel AI 1099 gig was secured 2026-07-18 (the Rung 2 trigger), but task work hadn't started as of that note ("time going to Terra API instead") — worth checking current status, since this gates a whole sequential checklist (choose state/agent → file Articles → EIN → bank account → Operating Agreement → Stripe → bookkeeping). **Data-quality flag**: the Formation Checklist page still says "Virginia" and references the retired "WT Ventures" plan in its state/fee references — needs a Maryland correction pass before anyone executes it (canonical is MD per Model B). Same gate gives the [Business Banking checklist](https://app.notion.com/p/38d89370d49781bf916ee1457b83105f) (Chase Business Checking/Savings, auto-sweep rule, draw cadence) — currently fully blocked on the same first-1099 trigger. |
+| Q3 Estimated Tax Payment — possibly overdue, not confirmed | [Compliance Calendar](https://app.notion.com/p/36f89370d497816db646f2cdca6a4f17) | Due date 2026-09-15 has passed (today is 2026-10-03); row still shows "⏭️ Deferred." Worth a direct check — may just be a stale Notion row if it was actually paid, or a genuinely missed item. |
+| Registered Agent Renewal note is stale | Compliance Calendar | Cost-basis note still says "x5 Wyoming entities," a pre-Model-B assumption. Not urgent (renewal itself is due 2027-01-01) but worth a text fix next time that row is touched. |
+
+### Per-subsidiary open items (live, not blocked)
+| Item | Source | Notes |
+|---|---|---|
+| Terra Agriculture — land title formalization | [Terra Agriculture](https://app.notion.com/p/38189370d497816daa98ce7dc961b099) | Flagged by the page's own Next Action list as the lead blocker before capital goes into permanent structures. Parallel, non-blocking: local operator search, Starlink coverage/pricing confirmation, Cameroon drone import regs, Parcel B power availability. |
+| Terra Agriculture — Fruit Value Chain brainstorm cluster | [Fruit Value Chain](https://app.notion.com/p/3cc89370d497811c916df726b0484c14) (+ 6 sub-pages) | Entirely new since the last pass (logged 2026-08-29, not in Tasks DB). Real open items: crop sequencing/orchard candidate list, land/hive plot mapping against real Parcel B geography (100–150yd pollination-proximity guidance exists as a draft constraint), capital planning for juice/pulp/wine processing tiers. One item resolved, NOT open: "cassmango" species ID was flagged as a research question on the parent page but a child page explicitly marks it **"Proprietary, Not Disclosed, Drop This Thread"** — a direct self-contradiction within the same doc cluster; treat the child page as authoritative (closed), not the parent's phrasing. |
+| Resort/Terra Real Estate — permit/regulatory research | [Resort Concept](https://app.notion.com/p/36f89370d4978115be61e48e712461c4) | Explicitly flagged "should happen before any spend occurs" — not yet started. Also open: real local supplier contacts (CCIMA Bafoussam branch suggested as starting point), architect brief prep, Phase 1 cost estimation with real local quotes. |
+| Resort/OMS — deployment stage unresolved | [Resort Deployment Tracker](https://app.notion.com/p/36e89370d49781849ebbe20a7d754a08) | Stage = "Planning," Target Go-Live = unset. This is the named Phase-1 OMS-in-house target (per the Terra Inc hub's own status table: "OMS live at Terra RE resort" = 🔴 Not Started, Priority 1) — real scoping work hasn't started despite being the top business priority. |
+| Bamboo shoe design — subsidiary home undecided | [Idea Capture](https://app.notion.com/p/3cc89370d497818faae0cfb1dad95286) | Hand-drawn concept exists, Gemini visual-iteration planned. Open question explicitly flagged on the page: does this belong under Terra Apparel (wearables) or the Bamboo/Calabash goods line (core material)? Not resolved. |
+| Terra Nkap — 4 residual open threads | [Terra Nkap](https://app.notion.com/p/3cc89370d49781f8afb4ff16e573540c) | Mostly resolved (naming-risk question has a separate "CONFIRMED FINAL" child page — worth a consistency pass, not a fresh decision). Still open: physical card manufacturing plan (concept art only), Nkap-specific regulatory mapping (general Africa regulatory path exists, not Nkap-specific), cross-check the "three functions" framing on terra_africa_strategy.html against this page (not yet verified). |
+
+### Lower-confidence / parked (listed for completeness, not immediately actionable)
+Terra Real Estate's Dual-Use Global Property concept (trigger-gated, no hours committed — already in
+this file's Low Priority section as "numeric criteria" item), Terra Tech Engineering Lab purchase
+decisions (monitor/scope/printer choice — "parked, Black Friday 2026 target"), PIOS Frontend Stack
+ADR + PIOS Travel Layer ADR (both explicitly "write once PIOS architecture drafting starts," not
+now), Terra Solar (dormant until real land development triggers it).
+
+**Not reconciled into the main tables below** — this audit surfaced real items but most need a
+scoping/triage pass (several are self-tagged Brainstorm/Research Required, several are entity/legal
+decisions outside repo scope) before they're Tasks-DB-ready rows. Treat this section as the source
+list for that triage, not a finished reconciliation. Re-run this full-space crawl periodically —
+the Task Queue page's own existence shows this kind of drift accumulates between passes.
+
 ## What changed since the last snapshot (2026-08-30 → 2026-10-03)
 
 **Context: this pass found a real gap, not just drift.** 8 new Notion tasks were created between
@@ -119,8 +191,8 @@ flipped status since.
 | Phase G: scale/load planning | Notion | Explicitly parked until ecosystem is fully live. |
 | Decide: Terra Agriculture sourcing for OMS — Cameroon-only or cross-property principle | Notion | Business decision, no code dependency. |
 | Stand up separate goods-line area (bamboo/calabash hard goods) | Notion | Business decision. |
-| Decide entity home for goods line | Notion | Business decision. |
-| Define SKU/marker scheme for guest-purchasable vs. resort-owned goods items | Notion | Depends on the goods-line decisions above. |
+| ~~Decide entity home for goods line~~ — **RESOLVED 2026-08-29, Notion Tasks DB row not updated** | Notion | See "Full Terra Inc Notion space audit" section above — bamboo/calabash is cross-vertical, routed per-product, not a single entity home. Notion row should be closed; flagging here rather than closing it unilaterally. |
+| Define SKU/marker scheme for guest-purchasable vs. resort-owned goods items | Notion | **Has a live draft now** — see audit section above (4-segment composite tag drafted 2026-08-29). No longer blocked on the entity-home decision above (that's resolved); still open on exact segment order/format and ROMS/OMS technical integration. |
 | Build automated invisible-comment watermarking script | Notion | No repo home identified yet. |
 | [Research Required] Amazon seller plan for bamboo/calabash goods line | Notion | **New since last pass** (created 2026-08-23). |
 | Define numeric criteria for "decent unit in good area" — Dual-Use Global Property concept | Notion | **New since last pass** (created 2026-08-29). Unrelated personal/business real-estate concept, not a Terra repo task. |
