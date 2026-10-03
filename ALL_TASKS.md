@@ -14,6 +14,42 @@ Each repo tracks its own tasks with its own ID prefix (TAPI, TFE, THQ, ROMS/OMS)
 canonical Tasks DB is a separate, higher-level list — some Notion rows map 1:1 to a repo task ID,
 most don't (they're coarser "Phase" groupings or cross-cutting decisions).
 
+## What changed since the last snapshot (2026-08-30 → 2026-10-03)
+
+**Context: this pass found a real gap, not just drift.** 8 new Notion tasks were created between
+2026-09-28 and 2026-10-02 that no prior session's `load hub` ever surfaced — `load hub`'s Linear
+Fetch Mode only reads local hub/repo files, never live Notion, so task-DB-only planning sessions
+(Notion-only, no repo touched) go invisible to this file until someone explicitly re-pulls Notion.
+Also found during this pass: 4 Obsidian Queue sub-pages sitting under the Terra API Notion project
+page, 3 of which were genuinely undrained (1 note missing from the vault, written this pass to
+`Software Development/Testing/linter-driven-fixes-can-introduce-real-bugs.md`; the other 3 notes
+across those pages had already landed in the vault despite the page never being marked drained —
+spot-checked one byte-for-byte to confirm, not assumed). All 3 pages now marked drained in Notion
+(page-delete tool unavailable, same as the existing 2026-08-05 precedent — left in place, safe to
+delete manually). Also **separately found 2026-09-14**: `notion-space-audit` restructured the 🌍
+Terra Inc page itself (per its own page history) — not investigated further this pass, worth a
+look if Terra Inc's page structure matters for the next session that touches it.
+
+**New Notion tasks (2026-09-28 → 2026-10-02) — none yet have a matching repo TASKS.md ID:**
+
+| Task | Domain | Priority | Likely repo | Notes |
+|---|---|---|---|---|
+| HQ Site: Subsidiary emergence v1 (vanilla puzzle block) | Coding | High | terra-hq-site | No THQ-### ID assigned yet — scope this into one if picked up. |
+| Ha'bem — QR codes for scan-to-order (per room/table — confirm granularity) | Coding | High | oms | No ROMS/OMS-### ID yet. Granularity question (room vs. table) is an open design call, not just a build task. |
+| Mobile audit — everything shipped (Brainstorm Required) | Coding | High | ecosystem-wide | Explicitly tagged Brainstorm Required — a scoping session, not ready to implement. |
+| Customer-facing app shell — standard footer, legal/compliance links, share + bottom nav | Engineering | Medium | unclear — terra-api-fe or oms, or a new shared component | Cross-cutting; worth deciding which repo owns this before starting, since "customer-facing app shell" could mean either product's frontend. |
+| Payments layer for customer-facing apps — multi-provider abstraction (Stripe + Africa mobile money) | Engineering | Medium | likely oms (Ha'bem already has mobile-money adapter groundwork per ROMS's brand/data-model design) | Real architecture decision — multi-provider abstraction is a design-before-code item, not a quick add. |
+| App store readiness — Google Play + Apple App Store (Brainstorm Required) | Coding | Medium | oms (if Ha'bem goes mobile) | Tagged Brainstorm Required — implies no mobile app exists yet to submit; scope unclear from the title alone. |
+| HQ Site: Move Terra API into Terra Tech page | Coding | Medium | terra-hq-site | Small, mechanical-sounding — a content/nav reorg, consistent with past THQ-010/011 merge pattern. |
+| Visualizer: confirm location (terra-api-fe?) + record 8-cube role model | Coding | Medium | terra-api-fe or terra-hq-site | Sounds like a documentation/decision task (which visualizer owns the 8-cube model going forward), not new code. |
+| HQ Site: Subsidiary emergence v2 — upgrade to 3D globe (later) | Coding | Low | terra-hq-site | Explicitly deferred ("later") in its own title — parked, not actionable now. |
+
+**Not reconciled further this pass** — these are real findings surfaced, not resolved. Each would
+need its own scoping session (most are tagged Brainstorm/Research Required by their own Notion
+title, or are cross-cutting enough that picking the right repo home is itself a decision) before
+they're ready to become a repo TASKS.md row. Re-pull Notion next session to confirm none of these
+flipped status since.
+
 ## What changed since the last snapshot (2026-08-23 → 2026-08-30)
 
 1. **terra-hq-site was 2 commits behind `origin/main` on this machine** — the THQ-005–017 merge
